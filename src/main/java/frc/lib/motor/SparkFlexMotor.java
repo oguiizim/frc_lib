@@ -1,32 +1,30 @@
 package frc.lib.motor;
 
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib.utils.NeutralMode;
 
-public class SparkMaxMotor implements MotorIO {
+public class SparkFlexMotor implements MotorIO {
 
     private final String motorName;
-    private final SparkMax motor;
+    private final SparkFlex motor;
     private final SparkClosedLoopController pid;
-    private final SparkMaxConfig config = new SparkMaxConfig();
+    private final SparkFlexConfig config = new SparkFlexConfig();
 
-    public SparkMaxMotor(int id, String name) {
+    public SparkFlexMotor(int id, String name) {
         this.motorName = name;
-        motor = new SparkMax(id, MotorType.kBrushless);
+        motor = new SparkFlex(id, MotorType.kBrushless);
         pid = motor.getClosedLoopController();
 
-        config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         this.applyConfig();
     }
 
