@@ -1,4 +1,4 @@
-package frc.lib.utils;
+package frc.lib.util;
 
 public enum NeutralMode {
     BRAKE,

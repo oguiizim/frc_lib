@@ -1,7 +1,7 @@
 package frc.lib.motor;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib.utils.NeutralMode;
+import frc.lib.util.NeutralMode;
 
 /**
  * Controlador base.

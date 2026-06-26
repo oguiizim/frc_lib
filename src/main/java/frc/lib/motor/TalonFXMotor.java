@@ -9,7 +9,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib.utils.NeutralMode;
+import frc.lib.util.NeutralMode;
 
 public class TalonFXMotor implements MotorIO {
 

@@ -12,7 +12,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib.utils.NeutralMode;
+import frc.lib.util.NeutralMode;
 
 public class SparkMaxMotor implements MotorIO {
 

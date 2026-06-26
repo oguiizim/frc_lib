@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import edu.wpi.first.math.VecBuilder;
-import frc.lib.utils.LEDModes;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.util.LEDModes;
 import frc.lib.vision.LimelightHelpers.RawFiducial;
 import frc.lib.vision.types.VisionPoseEstimate;
 import frc.lib.vision.types.VisionTarget;
-import swervelib.SwerveDrive;
 
 public class LimelightCamera implements VisionIO {
 
     private final String name;
-    private double pitch, roll;
+    private double pitch, roll, forward, up, side;
 
     public LimelightCamera(String name) {
         this.name = name;
@@ -84,45 +83,33 @@ public class LimelightCamera implements VisionIO {
     @Override
     public void setCameraPose(double forward, double side, double up, double roll, double pitch, double yaw) {
         LimelightHelpers.setCameraPose_RobotSpace(name, forward, side, up, roll, pitch, yaw);
+        this.forward = forward;
+        this.side = side;
+        this.up = up;
         this.pitch = pitch;
         this.roll = roll;
     }
 
     @Override
-    public void updateOdometry(SwerveDrive swerveDrive) {
-        LimelightHelpers.SetRobotOrientation(name,
-                swerveDrive.getYaw().getDegrees(), 0, this.pitch, 0, this.roll, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
-        double std = 0.7;
-
-        if (mt2 == null
-                || mt2.tagCount == 0
-                || Math.abs(swerveDrive.getGyro().getYawAngularVelocity().magnitude()) > 120)
-            return;
-
-        if (mt2.tagCount >= 2)
-            std = 0.3;
-
-        swerveDrive.setVisionMeasurementStdDevs(VecBuilder.fill(std, std, 999999));
-        swerveDrive.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-    }
-
-    @Override
-    public Optional<VisionPoseEstimate> getPoseEstimate() {
+    public Optional<VisionPoseEstimate> getPoseEstimate(Rotation2d yaw) {
+        LimelightHelpers.SetRobotOrientation(name, yaw.getDegrees(), 0, pitch, 0, roll, 0);
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
 
         if (mt2 == null || mt2.tagCount == 0) {
             return Optional.empty();
         }
 
-        double avgAmbiguity = 0;
+        double avgAmbiguity = 0, avgDistance = 0;
 
         if (mt2.rawFiducials != null && mt2.rawFiducials.length > 0) {
-            double sum = 0;
+            double ambiguity, distance;
+            ambiguity = distance = 0;
             for (var f : mt2.rawFiducials) {
-                sum += f.ambiguity;
+                ambiguity += f.ambiguity;
+                distance += f.distToRobot;
             }
-            avgAmbiguity = sum / mt2.rawFiducials.length;
+            avgDistance = distance / mt2.rawFiducials.length;
+            avgAmbiguity = ambiguity / mt2.rawFiducials.length;
         }
 
         return Optional.of(
@@ -130,6 +117,8 @@ public class LimelightCamera implements VisionIO {
                         mt2.pose,
                         mt2.timestampSeconds,
                         mt2.tagCount,
-                        avgAmbiguity));
+                        avgAmbiguity,
+                        avgDistance,
+                        this.name));
     }
 }

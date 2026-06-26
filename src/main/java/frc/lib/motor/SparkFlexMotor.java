@@ -11,7 +11,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib.utils.NeutralMode;
+import frc.lib.util.NeutralMode;
 
 public class SparkFlexMotor implements MotorIO {
 

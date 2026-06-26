@@ -3,8 +3,10 @@ package frc.lib.vision;
 import java.util.List;
 import java.util.Optional;
 
-import frc.lib.utils.LEDModes;
-import frc.lib.vision.LimelightHelpers.PoseEstimate;
+import org.dyn4j.geometry.Rotation;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.util.LEDModes;
 import frc.lib.vision.types.VisionPoseEstimate;
 import frc.lib.vision.types.VisionTarget;
 import swervelib.SwerveDrive;
@@ -93,15 +95,6 @@ public interface VisionIO {
             double roll, double pitch, double yaw);
 
     /**
-     * Atualiza a odometria do robô utilizando MegaTag2.
-     * Essa função deve integrar as medições da câmera ao sistema de pose
-     * do swerve drive, melhorando a precisão da localização no campo.
-     *
-     * @param swerveDrive instância do sistema de controle do swerve.
-     */
-    void updateOdometry(SwerveDrive swerveDrive);
-
-    /**
      * Retorna a melhor estimativa de pose do robô calculada pela câmera de visão.
      * Essa estimativa utiliza o sistema de visão (ex: MegaTag2) para determinar a
      * posição
@@ -110,10 +103,12 @@ public interface VisionIO {
      * O resultado pode incluir informações como posição do robô, timestamp da
      * captura
      * e qualidade da detecção (dependendo da implementação).
+     * 
+     * @param yaw rotação 2d do robô
      *
      * @return um Optional contendo a estimativa de pose caso exista uma leitura
      *         válida,
      *         ou Optional.empty() caso não haja detecção confiável no momento.
      */
-    Optional<VisionPoseEstimate> getPoseEstimate();
+    Optional<VisionPoseEstimate> getPoseEstimate(Rotation2d yaw);
 }

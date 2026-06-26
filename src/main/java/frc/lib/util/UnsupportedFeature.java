@@ -1,4 +1,4 @@
-package frc.lib.utils;
+package frc.lib.util;
 
 public class UnsupportedFeature {
     public static void unsupported(String controller, String feature){

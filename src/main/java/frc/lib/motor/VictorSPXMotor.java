@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib.utils.UnsupportedFeature;
+import frc.lib.util.UnsupportedFeature;
 
 public class VictorSPXMotor implements MotorIO {
 
@@ -108,9 +108,9 @@ public class VictorSPXMotor implements MotorIO {
     }
 
     @Override
-    public void setIdleMode(frc.lib.utils.NeutralMode mode) {
+    public void setIdleMode(frc.lib.util.NeutralMode mode) {
         motor.setNeutralMode(
-                mode == frc.lib.utils.NeutralMode.BRAKE
+                mode == frc.lib.util.NeutralMode.BRAKE
                         ? NeutralMode.Brake
                         : NeutralMode.Coast);
     }

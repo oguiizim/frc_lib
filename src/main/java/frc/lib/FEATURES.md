@@ -20,7 +20,9 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 
 ## Visão
 
-
+- Ferramentas da Limelight
+- Manejamento de multi-cameras
+- Odometria com Megatag2
 
 ## Sensores
 
