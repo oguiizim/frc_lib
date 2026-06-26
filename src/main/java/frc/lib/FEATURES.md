@@ -1,0 +1,31 @@
+# FRC Lib
+
+A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento do código e possibilitar ter um código muito proximo do plug-and-play
+
+## Motores
+
+- SparkMax
+- SparkFlex
+- TalonFX
+- VictorSPX
+- Pares de motores (Grupos)
+
+## Estruturas de Controle
+
+- SysID
+
+## Matemática
+
+
+
+## Visão
+
+
+
+## Sensores
+
+- Infravermelho
+
+## Utilidades
+
+- IdleModes

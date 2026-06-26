@@ -4,7 +4,7 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.lib.utils.NeutralMode;
 
 /**
- * Interface base para controladores de motores utilizados pela biblioteca.
+ * Controlador base.
  *
  * <p>
  * Todos os métodos desta interface trabalham utilizando unidades padronizadas,

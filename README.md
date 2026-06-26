@@ -33,7 +33,7 @@ motor.setPercent(0.5);
 ```text
 lib/
 ├── motor/
-├── sensors/
+├── sensor/
 ├── control/
 └── utils/
 ```
