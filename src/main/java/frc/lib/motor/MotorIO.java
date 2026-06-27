@@ -163,7 +163,7 @@ public interface MotorIO {
      * @param kA Ganho de aceleração.
      * @param kG Ganho gravitacional.
      */
-    void configureFeedFoward(
+    void configureFeedForward(
             double kS,
             double kV,
             double kA,
@@ -176,7 +176,7 @@ public interface MotorIO {
      * @param kV Ganho de velocidade.
      * @param kA Ganho de aceleração.
      */
-    void configureFeedFoward(
+    void configureFeedForward(
             double kS,
             double kV,
             double kA);

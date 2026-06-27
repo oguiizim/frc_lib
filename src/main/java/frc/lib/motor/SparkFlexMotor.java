@@ -3,6 +3,7 @@ package frc.lib.motor;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -20,11 +21,13 @@ public class SparkFlexMotor implements MotorIO {
     private final SparkClosedLoopController pid;
     private final SparkFlexConfig config = new SparkFlexConfig();
 
-    public SparkFlexMotor(int id, String name) {
+    public SparkFlexMotor(int id, String name, double ratio) {
         this.motorName = name;
         motor = new SparkFlex(id, MotorType.kBrushless);
         pid = motor.getClosedLoopController();
+        this.setMechanismRatio(ratio);
 
+        config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         this.applyConfig();
     }
 
@@ -99,12 +102,12 @@ public class SparkFlexMotor implements MotorIO {
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA, double kG) {
+    public void configureFeedForward(double kS, double kV, double kA, double kG) {
         config.closedLoop.feedForward.svag(kS, kV, kA, kG);
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA) {
+    public void configureFeedForward(double kS, double kV, double kA) {
         config.closedLoop.feedForward.sva(kS, kV, kA);
     }
 

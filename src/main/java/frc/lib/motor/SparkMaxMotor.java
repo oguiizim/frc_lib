@@ -21,10 +21,11 @@ public class SparkMaxMotor implements MotorIO {
     private final SparkClosedLoopController pid;
     private final SparkMaxConfig config = new SparkMaxConfig();
 
-    public SparkMaxMotor(int id, String name) {
+    public SparkMaxMotor(int id, String name, double ratio) {
         this.motorName = name;
         motor = new SparkMax(id, MotorType.kBrushless);
         pid = motor.getClosedLoopController();
+        this.setMechanismRatio(ratio);
 
         config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         this.applyConfig();
@@ -101,12 +102,12 @@ public class SparkMaxMotor implements MotorIO {
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA, double kG) {
+    public void configureFeedForward(double kS, double kV, double kA, double kG) {
         config.closedLoop.feedForward.svag(kS, kV, kA, kG);
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA) {
+    public void configureFeedForward(double kS, double kV, double kA) {
         config.closedLoop.feedForward.sva(kS, kV, kA);
     }
 

@@ -22,7 +22,7 @@ public class VisionOdometry {
 
         VisionPoseEstimate pose = estimate.get();
 
-        if (!isRealible(pose, drive))
+        if (!isReliable(pose, drive))
             return;
 
         double std = calculateStd(pose);
@@ -32,7 +32,7 @@ public class VisionOdometry {
         drive.addVisionMeasurement(pose.pose(), pose.timestamp());
     }
 
-    private boolean isRealible(VisionPoseEstimate pose, SwerveDrive drive) {
+    private boolean isReliable(VisionPoseEstimate pose, SwerveDrive drive) {
 
         if (pose.tagCount() == 0)
             return false;

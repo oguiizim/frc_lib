@@ -13,6 +13,7 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 ## Estruturas de Controle
 
 - SysID
+- Classes de comandos generícas
 
 ## Matemática
 
@@ -31,3 +32,4 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 ## Utilidades
 
 - IdleModes
+- 

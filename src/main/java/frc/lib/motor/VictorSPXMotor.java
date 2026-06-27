@@ -93,12 +93,12 @@ public class VictorSPXMotor implements MotorIO {
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA, double kG) {
+    public void configureFeedForward(double kS, double kV, double kA, double kG) {
         UnsupportedFeature.unsupported("Victor SPX", "configureFeedForward()");
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA) {
+    public void configureFeedForward(double kS, double kV, double kA) {
         UnsupportedFeature.unsupported("Victor SPX", "configureFeedForward()");
     }
 

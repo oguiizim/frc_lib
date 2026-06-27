@@ -21,10 +21,11 @@ public class TalonFXMotor implements MotorIO {
     private final PositionVoltage positionReq = new PositionVoltage(0);
     private final VelocityVoltage velocityReq = new VelocityVoltage(0);
 
-    public TalonFXMotor(int id, String name) {
+    public TalonFXMotor(int id, String name, double ratio) {
         this.motorName = name;
         motor = new TalonFX(id);
         config = new TalonFXConfiguration();
+        this.setMechanismRatio(ratio);
 
         this.applyConfig();
     }
@@ -102,7 +103,7 @@ public class TalonFXMotor implements MotorIO {
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA, double kG) {
+    public void configureFeedForward(double kS, double kV, double kA, double kG) {
         config.Slot0.kS = kS;
         config.Slot0.kV = kV;
         config.Slot0.kA = kA;
@@ -110,7 +111,7 @@ public class TalonFXMotor implements MotorIO {
     }
 
     @Override
-    public void configureFeedFoward(double kS, double kV, double kA) {
+    public void configureFeedForward(double kS, double kV, double kA) {
         config.Slot0.kS = kS;
         config.Slot0.kV = kV;
         config.Slot0.kA = kA;

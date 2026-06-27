@@ -25,14 +25,14 @@ public class MotorGroup {
         follower.setPosition(position, ff);
     }
 
-    public void setVelocity(double position) {
-        leader.setVelocity(position);
-        follower.setVelocity(position);
+    public void setVelocity(double velocity) {
+        leader.setVelocity(velocity);
+        follower.setVelocity(velocity);
     }
 
-    public void setVelocity(double position, double ff) {
-        leader.setVelocity(position, ff);
-        follower.setVelocity(position, ff);
+    public void setVelocity(double velocity, double ff) {
+        leader.setVelocity(velocity, ff);
+        follower.setVelocity(velocity, ff);
     }
 
     public void setVoltage(double voltage) {
