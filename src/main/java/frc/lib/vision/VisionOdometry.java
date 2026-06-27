@@ -2,44 +2,43 @@ package frc.lib.vision;
 
 import java.util.Optional;
 
-import edu.wpi.first.math.VecBuilder;
+import frc.lib.pose.PoseEstimator;
 import frc.lib.vision.types.VisionPoseEstimate;
-import swervelib.SwerveDrive;
 
 public class VisionOdometry {
 
     private final VisionManager vision;
+    private final PoseEstimator estimator;
 
-    public VisionOdometry(VisionManager vision) {
+    public VisionOdometry(VisionManager vision, PoseEstimator estimator) {
         this.vision = vision;
+        this.estimator = estimator;
     }
 
-    public void update(SwerveDrive drive) {
-        Optional<VisionPoseEstimate> estimate = vision.getBestPoseEstimate(drive.getYaw());
+    public void update() {
+        Optional<VisionPoseEstimate> estimate = vision.getBestPoseEstimate(estimator.getYaw());
 
         if (estimate.isEmpty())
             return;
 
         VisionPoseEstimate pose = estimate.get();
 
-        if (!isReliable(pose, drive))
+        if (!isReliable(pose))
             return;
 
         double std = calculateStd(pose);
 
-        drive.setVisionMeasurementStdDevs(VecBuilder.fill(std, std, 9999999));
+        estimator.setVisionStdDevs(std, std, 999999);
 
-        drive.addVisionMeasurement(pose.pose(), pose.timestamp());
+        estimator.addVisionMeasurement(pose.pose(), pose.timestamp());
     }
 
-    private boolean isReliable(VisionPoseEstimate pose, SwerveDrive drive) {
+    private boolean isReliable(VisionPoseEstimate pose) {
 
         if (pose.tagCount() == 0)
             return false;
 
-        if (Math.abs(drive.getGyro()
-                .getYawAngularVelocity()
-                .magnitude()) > 120)
+        if (Math.abs(estimator.getAngularVelocityDegPerSec()) > 120)
             return false;
 
         if (pose.avgAmbiguity() > 0.4)

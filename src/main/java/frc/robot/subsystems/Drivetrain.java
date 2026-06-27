@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.pose.PoseEstimator;
+import frc.lib.pose.YAGSLPoseEstimator;
 import frc.lib.vision.LimelightCamera;
 import frc.lib.vision.VisionManager;
 import frc.lib.vision.VisionOdometry;
@@ -13,17 +15,19 @@ public class Drivetrain extends SubsystemBase {
     private final VisionManager visionManager;
     private final LimelightCamera cam1 = new LimelightCamera("limelight1");
     private final LimelightCamera cam2 = new LimelightCamera("gap");
+    private final PoseEstimator estimator;
 
     public Drivetrain() {
         this.drive = new SwerveDrive(null, null, 0, null);
+        this.estimator = new YAGSLPoseEstimator(drive);
         visionManager = new VisionManager(
                 cam1,
                 cam2);
-        visionOdometry = new VisionOdometry(visionManager);
+        visionOdometry = new VisionOdometry(visionManager, estimator);
     }
 
     @Override
     public void periodic() {
-        visionOdometry.update(drive);
+        visionOdometry.update();
     }
 }

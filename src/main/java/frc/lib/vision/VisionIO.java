@@ -3,13 +3,10 @@ package frc.lib.vision;
 import java.util.List;
 import java.util.Optional;
 
-import org.dyn4j.geometry.Rotation;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.lib.util.LEDModes;
 import frc.lib.vision.types.VisionPoseEstimate;
 import frc.lib.vision.types.VisionTarget;
-import swervelib.SwerveDrive;
 
 public interface VisionIO {
 
