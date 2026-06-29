@@ -14,10 +14,7 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 
 - SysID
 - Classes de comandos generícas
-
-## Matemática
-
-
+- Tuning dinâmico de PID e FeedForward
 
 ## Visão
 
@@ -32,4 +29,3 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 ## Utilidades
 
 - IdleModes
-- 

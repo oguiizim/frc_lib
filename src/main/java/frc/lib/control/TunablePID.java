@@ -1,23 +1,48 @@
 package frc.lib.control;
 
-public class TunablePID implements PIDGains {
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import frc.lib.motor.MotorIO;
 
-    @Override
+public class TunablePID {
+
+    private final TunableNumber p;
+    private final TunableNumber i;
+    private final TunableNumber d;
+
+    public TunablePID(
+            ShuffleboardContainer container,
+            double p,
+            double i,
+            double d) {
+
+        this.p = new TunableNumber(container, "P", p);
+        this.i = new TunableNumber(container, "I", i);
+        this.d = new TunableNumber(container, "D", d);
+    }
+
     public double getP() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getP'");
+        return p.get();
     }
 
-    @Override
     public double getI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getI'");
+        return i.get();
     }
 
-    @Override
     public double getD() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getD'");
+        return d.get();
+    }
+
+    public boolean hasChanged() {
+        return p.hasChanged()
+                || i.hasChanged()
+                || d.hasChanged();
+    }
+
+    public void applyIfChanged(MotorIO motor){
+        if(!hasChanged()){
+            return ;
+        }
+        motor.configurePID(getP(), getI(), getD());
     }
 
 }

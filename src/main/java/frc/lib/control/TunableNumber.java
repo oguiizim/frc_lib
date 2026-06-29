@@ -1,40 +1,38 @@
 package frc.lib.control;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 
-public class TunableNumber implements Tunable<Double> {
+public class TunableNumber {
 
     private final GenericEntry entry;
-
-    private double currentValue, lastValue;
+    private double lastValue;
 
     public TunableNumber(
-            String tab,
-            String layout,
+            ShuffleboardContainer container,
             String name,
             double defaultValue) {
-        this.entry = Shuffleboard.getTab(tab).getLayout(layout, BuiltInLayouts.kList).add(name, defaultValue)
+
+        entry = container
+                .add(name, defaultValue)
                 .getEntry();
-        this.currentValue = defaultValue;
-        this.lastValue = defaultValue;
+
+        lastValue = defaultValue;
     }
 
-    @Override
-    public Double get() {
-        currentValue = entry.getDouble(currentValue);
-        return currentValue;
+    public double get() {
+        return entry.getDouble(lastValue);
     }
 
-    @Override
     public boolean hasChanged() {
-        double value = get();
 
-        if (value != lastValue) {
-            lastValue = value;
+        double current = get();
+
+        if (current != lastValue) {
+            lastValue = current;
             return true;
         }
+
         return false;
     }
 

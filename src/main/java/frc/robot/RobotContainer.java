@@ -6,13 +6,18 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
+  private final Intake intake;
+
   public RobotContainer() {
+    this.intake = new Intake(9);
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
