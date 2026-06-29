@@ -13,17 +13,17 @@ public class Drivetrain extends SubsystemBase {
     private final SwerveDrive drive;
     private final VisionOdometry visionOdometry;
     private final VisionManager visionManager;
+    private final PoseEstimator estimator;
     private final LimelightCamera cam1 = new LimelightCamera("limelight1");
     private final LimelightCamera cam2 = new LimelightCamera("gap");
-    private final PoseEstimator estimator;
 
     public Drivetrain() {
         this.drive = new SwerveDrive(null, null, 0, null);
         this.estimator = new YAGSLPoseEstimator(drive);
-        visionManager = new VisionManager(
+        this.visionManager = new VisionManager(
                 cam1,
                 cam2);
-        visionOdometry = new VisionOdometry(visionManager, estimator);
+        this.visionOdometry = new VisionOdometry(visionManager, estimator);
     }
 
     @Override
