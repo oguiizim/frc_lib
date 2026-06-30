@@ -19,7 +19,7 @@ public class SysIdIO {
                         log -> {
                             log.motor(motor.getName()).voltage(Units.Volts.of(motor.getVoltage()))
                                     .angularPosition(Units.Rotations.of(motor.getPosition()))
-                                    .angularVelocity(Units.RotationsPerSecond.of(motor.getVelocity() / 60.0));
+                                    .angularVelocity(Units.RotationsPerSecond.of(motor.getVelocity()));
                         },
                         sub));
     }

@@ -19,15 +19,19 @@ public class SparkMaxMotor implements MotorIO {
     private final String motorName;
     private final SparkMax motor;
     private final SparkClosedLoopController pid;
-    private final SparkMaxConfig config = new SparkMaxConfig();
+    private final SparkMaxConfig cfg = new SparkMaxConfig();
 
-    public SparkMaxMotor(int id, String name, double ratio) {
+    public SparkMaxMotor(int id, String name, MotorConfig config) {
         this.motorName = name;
         motor = new SparkMax(id, MotorType.kBrushless);
         pid = motor.getClosedLoopController();
-        this.setMechanismRatio(ratio);
+        this.setCurrentLimit(config.currentLimit());
+        this.setRampRate(config.rampRate());
+        this.setIdleMode(config.idleMode());
+        this.setInverted(config.inverted());
+        this.setMechanismRatio(config.mechanismRatio());
 
-        config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        cfg.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         this.applyConfig();
     }
 
@@ -98,52 +102,52 @@ public class SparkMaxMotor implements MotorIO {
 
     @Override
     public void configurePID(double kP, double kI, double kD) {
-        config.closedLoop.pid(kP, kI, kD);
+        cfg.closedLoop.pid(kP, kI, kD);
     }
 
     @Override
     public void configureFeedForward(double kS, double kV, double kA, double kG) {
-        config.closedLoop.feedForward.svag(kS, kV, kA, kG);
+        cfg.closedLoop.feedForward.svag(kS, kV, kA, kG);
     }
 
     @Override
     public void configureFeedForward(double kS, double kV, double kA) {
-        config.closedLoop.feedForward.sva(kS, kV, kA);
+        cfg.closedLoop.feedForward.sva(kS, kV, kA);
     }
 
     @Override
     public void setInverted(boolean inverted) {
-        config.inverted(inverted);
+        cfg.inverted(inverted);
     }
 
     @Override
     public void setIdleMode(NeutralMode mode) {
-        config.idleMode(mode == NeutralMode.BRAKE
+        cfg.idleMode(mode == NeutralMode.BRAKE
                 ? IdleMode.kBrake
                 : IdleMode.kCoast);
     }
 
     @Override
     public void setCurrentLimit(int amps) {
-        config.smartCurrentLimit(amps);
+        cfg.smartCurrentLimit(amps);
     }
 
     @Override
     public void setRampRate(double seconds) {
-        config.openLoopRampRate(seconds);
-        config.closedLoopRampRate(seconds);
+        cfg.openLoopRampRate(seconds);
+        cfg.closedLoopRampRate(seconds);
     }
 
     @Override
     public void setMechanismRatio(double ratio) {
-        config.encoder.positionConversionFactor(1.0 / ratio);
-        config.encoder.velocityConversionFactor(1.0 / ratio / 60.0);
+        cfg.encoder.positionConversionFactor(1.0 / ratio);
+        cfg.encoder.velocityConversionFactor(1.0 / ratio / 60.0);
     }
 
     @SuppressWarnings("removal")
     @Override
     public void applyConfig() {
-        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor.configure(cfg, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override

@@ -15,17 +15,21 @@ public class TalonFXMotor implements MotorIO {
 
     private final String motorName;
     private final TalonFX motor;
-    private final TalonFXConfiguration config;
+    private final TalonFXConfiguration cfg;
 
     private final VoltageOut voltageReq = new VoltageOut(0);
     private final PositionVoltage positionReq = new PositionVoltage(0);
     private final VelocityVoltage velocityReq = new VelocityVoltage(0);
 
-    public TalonFXMotor(int id, String name, double ratio) {
+    public TalonFXMotor(int id, String name, MotorConfig config) {
         this.motorName = name;
         motor = new TalonFX(id);
-        config = new TalonFXConfiguration();
-        this.setMechanismRatio(ratio);
+        cfg = new TalonFXConfiguration();
+        this.setCurrentLimit(config.currentLimit());
+        this.setRampRate(config.rampRate());
+        this.setIdleMode(config.idleMode());
+        this.setInverted(config.inverted());
+        this.setMechanismRatio(config.mechanismRatio());
 
         this.applyConfig();
     }
@@ -97,63 +101,63 @@ public class TalonFXMotor implements MotorIO {
 
     @Override
     public void configurePID(double kP, double kI, double kD) {
-        config.Slot0.kP = kP;
-        config.Slot0.kI = kI;
-        config.Slot0.kD = kD;
+        cfg.Slot0.kP = kP;
+        cfg.Slot0.kI = kI;
+        cfg.Slot0.kD = kD;
     }
 
     @Override
     public void configureFeedForward(double kS, double kV, double kA, double kG) {
-        config.Slot0.kS = kS;
-        config.Slot0.kV = kV;
-        config.Slot0.kA = kA;
-        config.Slot0.kG = kG;
+        cfg.Slot0.kS = kS;
+        cfg.Slot0.kV = kV;
+        cfg.Slot0.kA = kA;
+        cfg.Slot0.kG = kG;
     }
 
     @Override
     public void configureFeedForward(double kS, double kV, double kA) {
-        config.Slot0.kS = kS;
-        config.Slot0.kV = kV;
-        config.Slot0.kA = kA;
+        cfg.Slot0.kS = kS;
+        cfg.Slot0.kV = kV;
+        cfg.Slot0.kA = kA;
     }
 
     @Override
     public void setInverted(boolean inverted) {
-        config.MotorOutput.Inverted = inverted
+        cfg.MotorOutput.Inverted = inverted
                 ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
     }
 
     @Override
     public void setIdleMode(NeutralMode mode) {
-        config.MotorOutput.NeutralMode = mode == NeutralMode.BRAKE
+        cfg.MotorOutput.NeutralMode = mode == NeutralMode.BRAKE
                 ? NeutralModeValue.Brake
                 : NeutralModeValue.Coast;
     }
 
     @Override
     public void setCurrentLimit(int amps) {
-        config.CurrentLimits.SupplyCurrentLimit = amps;
-        config.CurrentLimits.SupplyCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = amps;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        cfg.CurrentLimits.SupplyCurrentLimit = amps;
+        cfg.CurrentLimits.SupplyCurrentLimitEnable = true;
+        cfg.CurrentLimits.StatorCurrentLimit = amps;
+        cfg.CurrentLimits.StatorCurrentLimitEnable = true;
     }
 
     @Override
     public void setRampRate(double seconds) {
-        config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = seconds;
-        config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = seconds;
+        cfg.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = seconds;
+        cfg.ClosedLoopRamps.VoltageClosedLoopRampPeriod = seconds;
     }
 
     @Override
     public void setMechanismRatio(double ratio) {
-        config.Feedback.RotorToSensorRatio = 1.0;
-        config.Feedback.SensorToMechanismRatio = ratio;
+        cfg.Feedback.RotorToSensorRatio = 1.0;
+        cfg.Feedback.SensorToMechanismRatio = ratio;
     }
 
     @Override
     public void applyConfig() {
-        motor.getConfigurator().apply(config);
+        motor.getConfigurator().apply(cfg);
     }
 
     @Override

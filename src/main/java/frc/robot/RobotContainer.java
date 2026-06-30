@@ -6,13 +6,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.vision.LimelightCamera;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
-  private final Intake intake;
+  private final Vision visionSub;
+  private final Intake intakeSub;
+  private final Drivetrain drivetrainSub;
 
   public RobotContainer() {
-    this.intake = new Intake(9);
+    this.intakeSub = new Intake(9);
+    this.visionSub = new Vision(
+        new LimelightCamera("cam1"),
+        new LimelightCamera("cam2"));
+    this.drivetrainSub = new Drivetrain(visionSub);
     configureBindings();
   }
 

@@ -26,6 +26,15 @@ A `mylib` tem uma gama de ferramentas perfeitas para agilizar o desenvolvimento 
 
 - Infravermelho
 
+## Dashboard
+
+- Templates para visualização de:
+    - Motores
+    - Sensores
+    - Giroscopios
+    - Swerve
+
+
 ## Utilidades
 
 - IdleModes
