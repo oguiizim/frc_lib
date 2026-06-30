@@ -21,6 +21,8 @@ public class SparkMaxMotor implements MotorIO {
     private final SparkClosedLoopController pid;
     private final SparkMaxConfig cfg = new SparkMaxConfig();
 
+    private double targetPosition, targetVelocity, targetPercent;
+
     public SparkMaxMotor(int id, String name, MotorConfig config) {
         this.motorName = name;
         motor = new SparkMax(id, MotorType.kBrushless);
@@ -43,26 +45,49 @@ public class SparkMaxMotor implements MotorIO {
     @Override
     public void setPercent(double percent) {
         motor.set(percent);
+        this.targetPercent = percent;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setPosition(double position) {
-        pid.setSetpoint(position, ControlType.kPosition);
+        if (this.getPosition() != position) {
+            pid.setSetpoint(position, ControlType.kPosition);
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = position;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setPosition(double position, double ff) {
-        pid.setSetpoint(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, ff);
+        if (this.getPosition() != position) {
+            pid.setSetpoint(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, ff);
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = position;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setVelocity(double velocity) {
-        pid.setSetpoint(velocity, ControlType.kVelocity);
+        if (this.getVelocity() != velocity) {
+            pid.setSetpoint(velocity, ControlType.kVelocity);
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = velocity;
     }
 
     @Override
     public void setVelocity(double velocity, double ff) {
-        pid.setSetpoint(velocity, ControlType.kVelocity, ClosedLoopSlot.kSlot0, ff);
+        if (this.getVelocity() != velocity) {
+            pid.setSetpoint(velocity, ControlType.kVelocity, ClosedLoopSlot.kSlot0, ff);
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = velocity;
     }
 
     @Override

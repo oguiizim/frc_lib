@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
 
     ShuffleboardLayout layout = Shuffleboard.getTab("Control").getLayout("Intake Arm PID", BuiltInLayouts.kList);
 
-    private final MotorIO armMotor;
+    public final MotorIO armMotor;
     private final TunablePID armPid;
 
     public Intake(int armId) {

@@ -17,6 +17,8 @@ public class TalonFXMotor implements MotorIO {
     private final TalonFX motor;
     private final TalonFXConfiguration cfg;
 
+    private double targetPosition, targetVelocity, targetPercent;
+
     private final VoltageOut voltageReq = new VoltageOut(0);
     private final PositionVoltage positionReq = new PositionVoltage(0);
     private final VelocityVoltage velocityReq = new VelocityVoltage(0);
@@ -42,26 +44,49 @@ public class TalonFXMotor implements MotorIO {
     @Override
     public void setPercent(double percent) {
         motor.set(percent);
+        this.targetPercent = percent;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setPosition(double position) {
-        motor.setControl(positionReq.withPosition(position));
+        if (this.getPosition() != position) {
+            motor.setControl(positionReq.withPosition(position));
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = position;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setPosition(double position, double ff) {
-        motor.setControl(positionReq.withPosition(position).withFeedForward(ff));
+        if (this.getPosition() != position) {
+            motor.setControl(positionReq.withPosition(position).withFeedForward(ff));
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = position;
+        this.targetVelocity = Double.NaN;
     }
 
     @Override
     public void setVelocity(double velocity) {
-        motor.setControl(velocityReq.withVelocity(velocity));
+        if (this.getVelocity() != velocity) {
+            motor.setControl(velocityReq.withVelocity(velocity));
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = velocity;
     }
 
     @Override
     public void setVelocity(double velocity, double ff) {
-        motor.setControl(velocityReq.withVelocity(velocity).withFeedForward(ff));
+        if (this.getVelocity() != velocity) {
+            motor.setControl(velocityReq.withVelocity(velocity).withFeedForward(ff));
+        }
+        this.targetPercent = Double.NaN;
+        this.targetPosition = Double.NaN;
+        this.targetVelocity = velocity;
     }
 
     @Override
